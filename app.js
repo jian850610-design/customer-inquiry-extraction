@@ -111,13 +111,23 @@ function extractInformation(text) {
 }
 
 function fillFieldsFromText() {
-	if (!consultationText.value.trim()) {
+	console.log("Extract button clicked");
+	const text = consultationText.value;
+	console.log("Consultation textarea text:", text);
+	if (!text.trim()) {
 		extractionStatus.textContent = "상담 내용을 입력해 주세요.";
 		return;
 	}
-	const results = extractInformation(consultationText.value);
+	const results = extractInformation(text);
+	console.log("Parsed extraction results:", Object.fromEntries(results.map((result) => [result.id, result.value])));
 	for (const result of results) {
-		document.getElementById(result.id).value = result.value;
+		const input = document.getElementById(result.id);
+		if (!input) {
+			console.error("Extraction field ID not found:", result.id);
+			throw new Error(`Extraction field ID not found: ${result.id}`);
+		}
+		input.value = result.value;
+		console.log("Extraction field updated:", { id: input.id, value: input.value });
 	}
 	const dateResult = results.find((result) => result.id === "inquiry-date");
 	if (!dateResult.value) document.getElementById("inquiry-date").value = todayDate();
