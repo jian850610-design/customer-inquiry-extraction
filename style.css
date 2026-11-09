@@ -1,0 +1,157 @@
+.image-upload {
+	margin-top: 1rem;
+}
+
+.drop-zone {
+	box-sizing: border-box;
+	min-height: 200px;
+	padding: 2rem;
+	border: 2px dashed #82919d;
+	border-radius: 8px;
+	background: #f5f8fa;
+	color: #263744;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.6rem;
+	text-align: center;
+	cursor: pointer;
+	transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+}
+
+.drop-zone:hover,
+.drop-zone:focus-within {
+	border-color: #176b87;
+	background: #edf7fa;
+}
+
+.drop-zone.is-dragging {
+	border-color: #087b68;
+	background: #e8f6f1;
+	color: #075d4f;
+}
+
+.drop-zone-title {
+	font-size: 1.1rem;
+	font-weight: 700;
+}
+
+.drop-zone-hint {
+	font-size: 0.875rem;
+	color: #52616b;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	clip-path: inset(50%);
+	border: 0;
+}
+
+.upload-status {
+	min-height: 1.5em;
+	margin: 0.65rem 0 0;
+	color: #9a3e18;
+	font-size: 0.9rem;
+}
+
+.image-preview {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr));
+	gap: 0.75rem;
+}
+
+.preview-empty {
+	grid-column: 1 / -1;
+	margin: 0;
+	color: #687782;
+}
+
+.preview-item {
+	position: relative;
+	min-width: 0;
+	margin: 0;
+	border: 1px solid #d5dde2;
+	border-radius: 6px;
+	background: #fff;
+	overflow: hidden;
+}
+
+.preview-item img {
+	display: block;
+	width: 100%;
+	height: 180px;
+	object-fit: contain;
+	background: #f5f7f8;
+}
+
+.preview-item figcaption {
+	padding: 0.5rem 2.5rem 0.5rem 0.65rem;
+	font-size: 0.8rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.ocr-panel {
+	display: grid;
+	gap: 0.6rem;
+	margin-top: 1rem;
+}
+
+.ocr-panel textarea {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 12rem;
+	resize: vertical;
+}
+
+#ocr-status {
+	min-height: 1.5em;
+	margin: 0;
+}
+
+.field-review-status {
+	margin-left: 0.4rem;
+	color: #a33b1f;
+	font-size: 0.8rem;
+	font-weight: 700;
+}
+
+.image-remove-button {
+	position: absolute;
+	top: 0.4rem;
+	right: 0.4rem;
+	width: 2rem;
+	height: 2rem;
+	border: 0;
+	border-radius: 50%;
+	background: #17252dcc;
+	color: #fff;
+	font-size: 1.35rem;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.image-remove-button:hover,
+.image-remove-button:focus-visible {
+	background: #a52c2c;
+}
+
+@media (max-width: 480px) {
+	.drop-zone {
+		min-height: 160px;
+		padding: 1.25rem;
+	}
+
+	.drop-zone-title {
+		font-size: 1rem;
+	}
+}

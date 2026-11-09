@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="고객 문의 상담 정보를 기록하고 Excel 입력용 데이터를 준비합니다.">
+		<title>Customer Inquiry Logging</title>
+		<link rel="stylesheet" href="style.css">
+		<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js" defer></script>
+		<script src="app.js" defer></script>
+	</head>
+	<body>
+		<header>
+			<h1>Customer Inquiry Logging</h1>
+		</header>
+
+		<main>
+			<section aria-labelledby="consultation-heading">
+				<h2 id="consultation-heading">상담 정보</h2>
+
+				<div>
+					<label for="contact-route">Contact route</label>
+					<select id="contact-route" name="contact-route">
+						<option value="" selected>선택하세요</option>
+						<option value="전화">전화</option>
+						<option value="네이버 톡톡">네이버 톡톡</option>
+						<option value="카카오톡 채널">카카오톡 채널</option>
+						<option value="이메일">이메일</option>
+						<option value="기타">기타</option>
+					</select>
+				</div>
+
+				<div class="image-upload">
+					<label id="image-drop-zone" class="drop-zone" for="consultation-images">
+						<span class="drop-zone-title">이미지를 드래그하거나 Ctrl + V로 붙여넣으세요</span>
+						<span class="drop-zone-hint">또는 클릭하여 이미지 선택</span>
+						<input
+							id="consultation-images"
+							name="consultation-images"
+							class="visually-hidden"
+							type="file"
+							accept="image/png,image/jpeg,image/webp"
+							multiple
+						>
+					</label>
+					<p id="image-upload-status" class="upload-status" aria-live="polite"></p>
+					<div id="image-preview" class="image-preview" aria-live="polite" aria-label="상담 캡처 이미지 미리보기">
+						<p class="preview-empty">업로드한 이미지 미리보기 영역</p>
+					</div>
+					<div class="ocr-panel">
+						<button id="extract-image-info" type="button" disabled>이미지에서 정보 추출</button>
+						<p id="ocr-status" role="status" aria-live="polite"></p>
+						<label for="recognized-text">인식된 텍스트</label>
+						<textarea id="recognized-text" rows="10" placeholder="이미지에서 추출한 원문이 여기에 표시됩니다."></textarea>
+						<button id="reextract-from-text" type="button">수정된 텍스트에서 다시 추출</button>
+						<p id="text-extraction-status" role="status" aria-live="polite"></p>
+					</div>
+				</div>
+			</section>
+
+			<section aria-labelledby="results-heading">
+				<h2 id="results-heading">추출 결과</h2>
+				<p>확인되지 않은 정보는 공란으로 유지해 주세요.</p>
+
+				<form id="inquiry-form">
+					<div>
+						<label for="inquiry-date">연락일</label>
+						<input id="inquiry-date" name="연락일" type="date">
+					</div>
+					<div>
+						<label for="result-contact-route">Contact route</label>
+						<input id="result-contact-route" name="Contact route" type="text">
+					</div>
+					<div>
+						<label for="company-name">기업명</label>
+						<input id="company-name" name="기업명" type="text">
+					</div>
+					<div>
+						<label for="contact-person">담당자</label>
+						<input id="contact-person" name="담당자" type="text">
+					</div>
+					<div>
+						<label for="phone">전화 <span id="phone-review" class="field-review-status" hidden>확인 필요</span></label>
+						<input id="phone" name="전화" type="tel">
+					</div>
+					<div>
+						<label for="email">이메일</label>
+						<input id="email" name="이메일" type="email">
+					</div>
+					<div>
+						<label for="customer-category">고객분류</label>
+						<input id="customer-category" name="고객분류" type="text">
+					</div>
+					<div>
+						<label for="end-user">END USER</label>
+						<input id="end-user" name="END USER" type="text">
+					</div>
+					<div>
+						<label for="equipment">적용장비</label>
+						<input id="equipment" name="적용장비" type="text">
+					</div>
+					<div>
+						<label for="item">품목 <span id="item-review" class="field-review-status" hidden>확인 필요</span></label>
+						<input id="item" name="품목" type="text">
+					</div>
+					<div>
+						<label for="gp">GP</label>
+						<input id="gp" name="GP" type="text">
+					</div>
+					<div>
+						<label for="unit-price">단가(VAT포함)</label>
+						<input id="unit-price" name="단가(VAT포함)" type="text" inputmode="decimal">
+					</div>
+					<div>
+						<label for="quantity">수량 <span id="quantity-review" class="field-review-status" hidden>확인 필요</span></label>
+						<input id="quantity" name="수량" type="text" inputmode="decimal">
+					</div>
+					<div>
+						<label for="sales-price">판매가</label>
+						<input id="sales-price" name="판매가" type="text" inputmode="decimal">
+					</div>
+					<div>
+						<label for="delivery-date">납기</label>
+						<input id="delivery-date" name="납기" type="text">
+					</div>
+					<div>
+						<label for="won-lost">Won/Lost</label>
+						<select id="won-lost" name="Won/Lost">
+							<option value="" selected>선택하세요</option>
+							<option value="Won">Won</option>
+							<option value="Lost">Lost</option>
+						</select>
+					</div>
+					<div>
+						<label for="quotation-purpose">견적목적 (입찰 여부)</label>
+						<input id="quotation-purpose" name="견적목적 (입찰 여부)" type="text">
+					</div>
+					<div>
+						<label for="assignee">이관 대리점 또는 영업담당자</label>
+						<input id="assignee" name="이관 대리점 또는 영업담당자" type="text">
+					</div>
+				</form>
+			</section>
+
+			<section aria-labelledby="excel-heading">
+				<h2 id="excel-heading">Excel 입력</h2>
+				<button type="button" id="copy-to-excel">Excel용으로 복사</button>
+				<p>복사 기능은 아직 준비 중입니다.</p>
+			</section>
+		</main>
+	</body>
+</html>
